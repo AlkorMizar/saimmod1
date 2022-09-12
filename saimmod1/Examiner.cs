@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,134 +9,140 @@ namespace saimmod1
 {
     class Examiner
     {
-        float[] X;
-        float max, min;
         Alg alg;
         const float EPS = 0.00001f;
+        float max, min;
 
         public float MathExpect { get; }
         public float Dispersion { get; }
         public float Deviation { get; }
         public float Hits { get; }
         public float K2N { get; }
-        public int N { get; }
-        public int Period { get; }
-        public int Aperiod { get; }
+        public long N { get; }
+        public long Period { get; }
+        public long Aperiod { get; }
 
         public Histogram HistogramStr { get; }
 
-        public Examiner(Alg alg, int K)
+        public Examiner(Alg alg, long K)
         {
-            this.alg = alg;
+            this.alg = alg.CloneWithState();
+            this.alg.Reset();
+
             N = alg.M * 100;
-            X = new float[N];
 
-            alg.Reset();
-
-            min = float.MaxValue;
-            max = float.MinValue;
-
-            for (int i = 0; i < N; i++)
-            {
-                X[i] = alg.GetNext();
-                min = Math.Min(min, X[i]);
-                max = Math.Max(max, X[i]);
-            }
-        
-            (MathExpect, Dispersion, Deviation) = StatisticProperties();
-            (Hits, K2N) = InderecctProperties();
+            (Hits, K2N, MathExpect,max,min) = InderecctProperties();
+            ( Dispersion, Deviation) = StatisticProperties(MathExpect);
             (Period, Aperiod) = PeriodicProperties();
 
-            Array.Sort(X);
             HistogramStr = GenerateHistogeram(K);
         }
 
-        private Histogram GenerateHistogeram(int K)
+        private Histogram GenerateHistogeram(long K)
         {
             float r = max - min;
             float delt = r / K;
 
-            var histogram = new Histogram();
+            var ms = new long[K];
+
+            var histogram = new Histogram(K);
+
+            alg.Reset();
+            for (long j = 0; j < N;j++)
+            {
+                var x = alg.GetNext();
+                if (x==max)
+                {
+                    ms[K - 1]++;
+                    continue;
+                }
+                var ind = (long)Math.Floor((x - min ) / delt);
+                ms[ind]++;
+            }
 
             var from = min;
-            var to = from + delt;
-            for (int j = 0; j < X.Length;)
+            var to = min + delt;
+            for (long i = 0; i < K; i++)
             {
-                var m = 0f;
-                while (j < X.Length && X[j] <= to)
-                {
-                    m++;
-                    j++;
-                }
-                histogram.Add(from, m / N, to);
+                histogram.UpdateWInd(from, ((float)ms[i]) / N, to, i);
                 from = to;
-                to = histogram.Length==K-1 ?max : from + delt;
+                to = i != K - 1 ? from + delt : max;
             }
 
             return histogram;
         }
 
-        private (float m, float d, float dev) StatisticProperties()
+        private (float d, float dev) StatisticProperties(float mathExp)
         {
-            float m = 0, d = 0, dev = 0;
-            foreach (var x in X)
+            alg.Reset();
+            float d = 0, dev = 0;
+            
+            for (long i = 0; i < N; i++)
             {
-                m += x;
-            }
-
-            m /= N;
-
-            foreach (var x in X)
-            {
-                d += (x - MathExpect) * (x - MathExpect);
+                var x = alg.GetNext();
+                d += (x - mathExp) * (x - mathExp);
             }
 
             d /= (N - 1);
 
             dev = (float)Math.Sqrt(d);
-            return (m, d, dev);
+            return (d, dev);
         }
 
-        private (int K, float K2N) InderecctProperties()
+        private (long K, float K2N, float MathExp,float max,float min) InderecctProperties()
         {
-            var K = CountHits();
+            var (K, m,max,min) = CountHits();
             var K2N = K * 2.0f / N;
-            return (K, K2N);
+            return (K, K2N, m,max,min);
         }
 
-        private(int Period,int Aperiod) PeriodicProperties()
+        private (long Period, long Aperiod) PeriodicProperties()
         {
 
-            var p=CalculatePeriod(N*10, EPS);
+            var p = CalculatePeriod(N * 10, EPS);
 
             if (p < 0)
             {
-                return(-1,-1);
+                return (-1, -1);
             }
 
-            return (p,CalculateAperiod(p, EPS));
+            return (p, CalculateAperiod(p, EPS));
         }
 
-        private int CountHits()
+        private (long Hits, float MathExp,float max,float min) CountHits()
         {
+            alg.Reset();
+            
+            var max = float.MinValue;
+            var min = float.MaxValue;
+
             var h = 0;
-            for (int i = 0; i < X.Length - 2; i += 2)
+            var m = 0f;
+            for (long i = 0; i < N - 2; i += 2)
             {
-                if (X[i] * X[i] + X[i + 1] * X[i + 1] < 1)
+                var x2i_1 = alg.GetNext();
+                var x2i = alg.GetNext();
+                if (x2i * x2i + x2i_1 * x2i_1 < 1)
                 {
                     h++;
+                    Trace.WriteLine(i);
                 }
+                m += x2i + x2i_1;
+
+                var (maxX, minX) = x2i > x2i_1 ? (x2i, x2i_1) : (x2i_1, x2i);
+                max = Math.Max(max, maxX);
+                min = Math.Min(min, minX);
             }
-            return h;
+            return (h, m / N,max,min);
         }
 
-        private int CalculateAperiod(int period,float eps)
+        private long CalculateAperiod(long period, float eps)
         {
             var clone0 = alg.CloneWithState();
             clone0.Reset();
             var cloneP = clone0.CloneWithState();
             cloneP.ToState(period);
-            int i3 = 1;
+            long i3 = 1;
             float xi3 = clone0.GetNext(), xi3P = cloneP.GetNext();
             while ((Math.Abs(xi3 - xi3P) > eps) && i3 < 1000_000_000)
             {
@@ -148,43 +155,41 @@ namespace saimmod1
             return period + i3;
         }
 
-        private int CalculatePeriod(int v, float eps)
+        private long CalculatePeriod(long v, float eps)
         {
             var x_v = GetAt(v);
 
             var clone = alg.CloneWithState();
             clone.Reset();
 
-            int i1, i2;
+            long i1, i2;
+            
             i1 = FindClone(x_v, eps, 1000_0000, clone);
             if (i1 < 0)
                 return -1;
-            i2 = FindClone(x_v, eps, 1000_0000, clone)+i1;
+            i2 = FindClone(x_v, eps, 1000_0000, clone) + i1;
             if (i2 < 0)
                 return -1;
 
             return i2 - i1;
         }
 
-        private float GetAt(int v)
+        private float GetAt(long v)
         {
             var clone = alg.CloneWithState();
-            float x_v = 0;
-            if (N < v)
+            alg.Reset();
+            float x_v = -1;
+            for (long i = 0; i < v; i++)
             {
-                for (int i = N; i < v; i++)
-                {
-                    x_v = alg.GetNext();
-                }
+                x_v = alg.GetNext();
             }
-            else x_v = X[v];
 
             return x_v;
         }
 
-        public int FindClone(float x_v, float eps, int upperBorder, Alg alg)
+        public long FindClone(float x_v, float eps, long upperBorder, Alg alg)
         {
-            int i = 0;
+            long i = 0;
             while (i < upperBorder)
             {
                 float x = alg.GetNext();

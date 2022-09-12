@@ -8,14 +8,14 @@ namespace saimmod1
 {
     public class Alg
     {
-        int R0;
-        int previousR;
-        int m, a;
-        public int M { get => m; }
+        long R0;
+        long previousR;
+        long m, a;
+        public long M { get => m; }
 
         float expr_m, expr_d;//math and disp
-        int step;//n
-        public Alg(int R0,int m,int a) {
+        long step;//n
+        public Alg(long R0,long m,long a) {
             if(m<a)
                 throw new ArgumentException($"a>m : {a}>{m}");
             previousR= this.R0 = R0;
@@ -23,7 +23,7 @@ namespace saimmod1
             this.m = m;
         }
 
-        private Alg(int R0, int prev, int m, int a):this(R0,m,a)
+        private Alg(long R0, long prev, long m, long a):this(R0,m,a)
         {
             previousR = prev;
         }
@@ -51,7 +51,7 @@ namespace saimmod1
             return new Alg(R0,previousR, M, a);
         }
 
-        public void ToState(int i)
+        public void ToState(long i)
         {
             while (i!=0)
             {
