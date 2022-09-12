@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "saimmod1", "saimmod1\saimmod1.csproj", "{9F8F6004-EAA6-4E25-B4B6-91151D97504D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F8F6004-EAA6-4E25-B4B6-91151D97504D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8F6004-EAA6-4E25-B4B6-91151D97504D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8F6004-EAA6-4E25-B4B6-91151D97504D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8F6004-EAA6-4E25-B4B6-91151D97504D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25CA522C-AF9E-477C-99E8-A091798740E0}
+	EndGlobalSection
+EndGlobal
