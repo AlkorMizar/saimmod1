@@ -10,9 +10,9 @@ namespace saimmod1
     public class Alg
     {
         long R0;
-        long previousR;
-        long m, a;
-        public long M { get => m; }
+        double previousR;
+        double m, a;
+        public long M { get => (long)m; }
 
         public Alg(long R0,long m,long a) {
             if(m<a)
@@ -22,14 +22,14 @@ namespace saimmod1
             this.m = m;
         }
 
-        private Alg(long R0, long prev, long m, long a):this(R0,m,a)
+        private Alg(long R0, double prev, long m, long a):this(R0,m,a)
         {
             previousR = prev;
         }
 
         public float GetNext() {
             previousR = (previousR * a) % m;
-            var res = ((float)previousR) / m;
+            var res = (float)(previousR / m) ;
             return res;
         }
 
@@ -39,7 +39,7 @@ namespace saimmod1
 
         public Alg CloneWithState()
         {
-            return new Alg(R0,previousR, M, a);
+            return new Alg(R0,previousR, M, (long)a);
         }
 
         public void ToState(long i)
