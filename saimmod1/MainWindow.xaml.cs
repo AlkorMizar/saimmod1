@@ -15,6 +15,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+// 15 1643 12031278
 namespace saimmod1
 {
     /// <summary>
@@ -31,13 +32,34 @@ namespace saimmod1
 
         private void OnCalculate(object sender, RoutedEventArgs e)
         {
+            int R0, m, a;
             ClearGrid();
-            int R0 = int.Parse(R0Text.Text);
-            int m = int.Parse(mText.Text);
-            int a = int.Parse(aText.Text);
+            try
+            {
+                R0 = int.Parse(R0Text.Text);
+                m = int.Parse(mText.Text);
+                a = int.Parse(aText.Text);
+            }
+            catch 
+            {
+                MessageBox.Show("Ошибка в вводе");
+                return;
+            }  
+
+            if (m<=0)
+            {
+                MessageBox.Show("Введенные заначениe m должны быть больше >0");
+                return;
+            }
+
+            if (R0 < 0 || a < 0)
+            {
+                MessageBox.Show("Введенные заначения R0 и a должны быть больше >=0");
+                return;
+            }
 
             alg = new Alg(R0, m, a);
-            var exam = new Examiner(alg,20);
+            var exam = new Examiner(alg,20,2_000_000);
 
             DrawHist(exam.HistogramStr,m);
             SetCharacteristics(exam);

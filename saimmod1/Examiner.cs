@@ -10,7 +10,7 @@ namespace saimmod1
     class Examiner
     {
         Alg alg;
-        const float EPS = 0.00001f;
+        const float EPS = 0.00000001f;
         float max, min;
 
         public float MathExpect { get; }
@@ -24,12 +24,12 @@ namespace saimmod1
 
         public Histogram HistogramStr { get; }
 
-        public Examiner(Alg alg, long K)
+        public Examiner(Alg alg, long K,long N)
         {
             this.alg = alg.CloneWithState();
             this.alg.Reset();
 
-            N = alg.M * 100;
+            this.N = N;
 
             (Hits, K2N, MathExpect,max,min) = InderecctProperties();
             ( Dispersion, Deviation) = StatisticProperties(MathExpect);
@@ -40,12 +40,19 @@ namespace saimmod1
 
         private Histogram GenerateHistogeram(long K)
         {
+            Histogram histogram;
+            if (min == max)
+            {
+                histogram = new Histogram(1);
+                histogram.UpdateWInd(0, 1, max, 0);
+                return histogram;
+
+            }
             float r = max - min;
             float delt = r / K;
 
             var ms = new long[K];
-
-            var histogram = new Histogram(K);
+            histogram = new Histogram(K);
 
             alg.Reset();
             for (long j = 0; j < N;j++)
@@ -99,7 +106,7 @@ namespace saimmod1
         private (long Period, long Aperiod) PeriodicProperties()
         {
 
-            var p = CalculatePeriod(N * 10, EPS);
+            var p = CalculatePeriod(N-1, EPS);
 
             if (p < 0)
             {
@@ -125,7 +132,6 @@ namespace saimmod1
                 if (x2i * x2i + x2i_1 * x2i_1 < 1)
                 {
                     h++;
-                    Trace.WriteLine(i);
                 }
                 m += x2i + x2i_1;
 
@@ -142,9 +148,15 @@ namespace saimmod1
             clone0.Reset();
             var cloneP = clone0.CloneWithState();
             cloneP.ToState(period);
-            long i3 = 1;
+            long i3 = 0;
             float xi3 = clone0.GetNext(), xi3P = cloneP.GetNext();
-            while ((Math.Abs(xi3 - xi3P) > eps) && i3 < 1000_000_000)
+            /*while ((Math.Abs(xi3 - xi3P) > eps) && i3 < N)
+            {
+                xi3 = clone0.GetNext();
+                xi3P = cloneP.GetNext();
+                i3++;
+            }*/
+            while (xi3.CompareTo(xi3P)!=0 && i3 < N)
             {
                 xi3 = clone0.GetNext();
                 xi3P = cloneP.GetNext();
@@ -164,10 +176,10 @@ namespace saimmod1
 
             long i1, i2;
             
-            i1 = FindClone(x_v, eps, 1000_0000, clone);
+            i1 = FindClone(x_v, eps, N, clone);
             if (i1 < 0)
                 return -1;
-            i2 = FindClone(x_v, eps, 1000_0000, clone) + i1;
+            i2 = FindClone(x_v, eps, N, clone) + i1;
             if (i2 < 0)
                 return -1;
 
@@ -194,7 +206,12 @@ namespace saimmod1
             {
                 float x = alg.GetNext();
                 i++;
-                if (Math.Abs(x - x_v) < eps)
+                /*if ( Math.Abs(x - x_v) < eps)
+                {
+                    return i;
+                }*/
+
+                if (x.CompareTo(x_v) == 0)
                 {
                     return i;
                 }

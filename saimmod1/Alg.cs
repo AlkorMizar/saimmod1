@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,6 @@ namespace saimmod1
         long m, a;
         public long M { get => m; }
 
-        float expr_m, expr_d;//math and disp
-        long step;//n
         public Alg(long R0,long m,long a) {
             if(m<a)
                 throw new ArgumentException($"a>m : {a}>{m}");
@@ -31,18 +30,10 @@ namespace saimmod1
         public float GetNext() {
             previousR = (previousR * a) % m;
             var res = ((float)previousR) / m;
-            step++;
-            if (step > 2)
-            {
-                expr_d = expr_d * (step - 2) / (step - 1)+(res-expr_m)* (res - expr_m)/step;
-            }
-            expr_m = expr_m * (step - 1) / step + res / step;
             return res;
         }
 
         public void Reset() {
-            expr_m = expr_d = 0;
-            step = 0;
             previousR = R0;
         }
 
