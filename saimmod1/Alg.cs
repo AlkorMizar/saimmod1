@@ -1,4 +1,5 @@
-﻿using System;
+﻿using saimmod1.Algoritms;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace saimmod1
 {
-    public class Alg
+    public class Alg:Algorithm
     {
         long R0;
         double previousR;
@@ -27,13 +28,13 @@ namespace saimmod1
             previousR = prev;
         }
 
-        public float GetNext() {
+        public override double GetNext() {
             previousR = (previousR * a) % m;
             var res = (float)(previousR / m) ;
             return res;
         }
 
-        public void Reset() {
+        public override void Reset() {
             previousR = R0;
         }
 
@@ -50,5 +51,17 @@ namespace saimmod1
                 i--;
             }
         }
+
+        public override Alg Clone()
+        {
+            return new Alg(R0, M, (long)a);
+        }
+
+
+        public override (double m, double d) GetStatistic(long N)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

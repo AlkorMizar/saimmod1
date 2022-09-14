@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace saimmod1
 {
-    class Histogram
+    public class Histogram
     {
         (float from, float c, float to)[] intervals;
         float max = float.MinValue;
