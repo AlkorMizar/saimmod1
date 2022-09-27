@@ -31,38 +31,10 @@ namespace saimmod1.Algoritms
         }
 
 
-        private double GetProbability(double x)
-        {
-            if (x >= a && x <= (a+b)/2)
-            {
-                return 4 * (x - a) / ((b - a) * (b - a));
-            }
-            if (x >= (a + b) / 2 && x <= b)
-            {
-                return 4 * (b - x) / ((b - a) * (b - a));
-            }
-            return 0;
-        }
-
         public override (double m, double d) GetStatistic(long N)
         {
-            var clone = rand.Clone();
-            double m = 0, d = 0, x;
 
-            for (int i = 0; i < N; i++)
-            {
-                x = clone.GetNext();
-                m += x * GetProbability(x);
-            }
-
-            clone.Reset();
-            for (int i = 0; i < N; i++)
-            {
-                x = clone.GetNext();
-                d += (x - m) * (x - m) * GetProbability(x);
-            }
-
-            return (m, d);
+            return ((a + b) / 2, (a- b)* (a - b) / 24);
         }
 
         public override Algorithm Clone()

@@ -31,7 +31,7 @@ namespace saimmod1.Algoritms
 
         public override (double m, double d) GetStatistic(long N)
         {
-            return (lambdaRev, lambdaRev * lambdaRev);
+            return (-lambdaRev, lambdaRev * lambdaRev);
         }
 
         public override void Reset()

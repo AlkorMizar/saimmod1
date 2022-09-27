@@ -32,6 +32,8 @@ namespace saimmod1.Algoritms
                 m += clone.GetNext();
             }
 
+            m /= N;
+
             clone.Reset();
             double d = 0d;
 

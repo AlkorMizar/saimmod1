@@ -22,9 +22,10 @@ namespace saimmod1.Algoritms
             double res = 0;
             for (int i = 0; i < 6; i++)
             {
-                res = +rand.GetNext();
+                res += rand.GetNext();
             }
-            return m + sigma * Two * (res - 3);
+            res = m + sigma * Two * (res - 3);
+            return res;
         }
         public override void Reset()
         {

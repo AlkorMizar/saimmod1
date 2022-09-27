@@ -86,7 +86,7 @@ namespace saimmod1
             
             for (long i = 0; i < N; i++)
             {
-                var x = alg.GetNext();
+                var x =(float) alg.GetNext();
                 d += (x - mathExp) * (x - mathExp);
             }
 
@@ -127,8 +127,8 @@ namespace saimmod1
             var m = 0f;
             for (long i = 0; i < N - 2; i += 2)
             {
-                var x2i_1 = alg.GetNext();
-                var x2i = alg.GetNext();
+                var x2i_1 = (float)alg.GetNext();
+                var x2i = (float)alg.GetNext();
                 if (x2i * x2i + x2i_1 * x2i_1 < 1)
                 {
                     h++;
@@ -149,7 +149,7 @@ namespace saimmod1
             var cloneP = clone0.CloneWithState();
             cloneP.ToState(period);
             long i3 = 0;
-            float xi3 = clone0.GetNext(), xi3P = cloneP.GetNext();
+            float xi3 = (float)clone0.GetNext(), xi3P = (float)cloneP.GetNext();
             /*while ((Math.Abs(xi3 - xi3P) > eps) && i3 < N)
             {
                 xi3 = clone0.GetNext();
@@ -158,8 +158,8 @@ namespace saimmod1
             }*/
             while (xi3.CompareTo(xi3P)!=0 && i3 < N)
             {
-                xi3 = clone0.GetNext();
-                xi3P = cloneP.GetNext();
+                xi3 = (float)clone0.GetNext();
+                xi3P = (float)cloneP.GetNext();
                 i3++;
             }
             if ((Math.Abs(xi3 - xi3P) > eps))
@@ -193,7 +193,7 @@ namespace saimmod1
             float x_v = -1;
             for (long i = 0; i < v; i++)
             {
-                x_v = alg.GetNext();
+                x_v = (float)alg.GetNext();
             }
 
             return x_v;
@@ -204,7 +204,7 @@ namespace saimmod1
             long i = 0;
             while (i < upperBorder)
             {
-                float x = alg.GetNext();
+                float x = (float)alg.GetNext();
                 i++;
                 /*if ( Math.Abs(x - x_v) < eps)
                 {

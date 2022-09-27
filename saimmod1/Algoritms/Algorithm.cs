@@ -10,6 +10,30 @@ namespace saimmod1.Algoritms
     {
         public abstract double GetNext();
         public abstract void Reset();
+        public (double m, double d) GetRealStatistic(long N) {
+            var clone = Clone();
+            double m = 0;
+            for (long i = 0; i < N; i++)
+            {
+                m += clone.GetNext();
+            }
+
+            m /= N;
+
+            clone.Reset();
+            double d = 0;
+
+            for (long i = 0; i < N; i++)
+            {
+                var x = clone.GetNext();
+                d += (x - m) * (x - m);
+            }
+
+            d /= (N - 1);
+
+            return (m,d);
+        }
+
         public abstract (double m, double d) GetStatistic(long N);
 
         public (float min, float max) MinMaxFor(long N)
@@ -50,7 +74,7 @@ namespace saimmod1.Algoritms
             this.Reset();
             for (long j = 0; j < N; j++)
             {
-                var x = this.GetNext();
+                var x = (float)this.GetNext();
                 if (x == max)
                 {
                     ms[K - 1]++;

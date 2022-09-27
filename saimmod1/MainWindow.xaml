@@ -57,53 +57,6 @@
                 <Rectangle VerticalAlignment="Bottom" Grid.Column="19" Fill="#FF3177B5" Stroke="#FF22316D"/>
             </Grid>
 
-            <Grid x:Name="lines" Height="400" Width="1250" HorizontalAlignment="Center" Canvas.Left="20" Canvas.Top="10" Canvas.Right="10"  VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Line StrokeThickness="2" X2="65" Grid.Column="0" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="1" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="2" Stroke="#FFD01515" />
-                <Line StrokeThickness="2" X2="65" Grid.Column="3" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="4" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="5" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="6" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="7" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="8" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="9" Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="10"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="11"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="12"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="13"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="14"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="15"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="16"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="17"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="18"  Stroke="#FFD01515"/>
-                <Line StrokeThickness="2" X2="65" Grid.Column="19"  Stroke="#FFD01515"/>
-            </Grid>
 
             <Grid x:Name="numC" ShowGridLines="True" Height="400" Width="1250" HorizontalAlignment="Center" Canvas.Left="20" Canvas.Top="10" Canvas.Right="10"  VerticalAlignment="Center">
                 <Grid.RowDefinitions>
@@ -205,7 +158,7 @@
         </Canvas>
         <StackPanel Orientation="Horizontal" Height="142">
             <StackPanel>
-                <Grid Canvas.Top="396" Width="300" Canvas.Left="19" HorizontalAlignment="Left" Height="97" VerticalAlignment="Center">
+                <Grid Canvas.Top="396" Width="200" Canvas.Left="19" HorizontalAlignment="Left" Height="97" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -219,12 +172,61 @@
                     <Label Content="a" Grid.Row="1" HorizontalAlignment="Right"/>
                     <Label Content="m" Grid.Row="2" HorizontalAlignment="Right"/>
 
-                    <TextBox x:Name="R0Text" Grid.Column="1" Margin="3"/>
-                    <TextBox x:Name="aText" Grid.Column="1" Grid.Row="1" Margin="3"/>
-                    <TextBox x:Name="mText" Grid.Column="1" Grid.Row="2" Margin="3"/>
+                    <TextBox x:Name="R0Text" Text="15" Grid.Column="1" Margin="3"/>
+                    <TextBox x:Name="aText" Text="1643" Grid.Column="1" Grid.Row="1" Margin="3"/>
+                    <TextBox x:Name="mText" Text="12031278" Grid.Column="1" Grid.Row="2" Margin="3"/>
                 </Grid>
                 <Button Content="Calculate" Margin="60 10 0 0" Width="150" HorizontalAlignment="Left" Click="OnCalculate"/>
             </StackPanel>
+            <Grid Margin="25 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Grid.Column="0" Grid.Row="0" GroupName="Distributions" Checked="CheckUniform" Content="Равномерное"/>
+                <RadioButton Grid.Column="0" Grid.Row="1" GroupName="Distributions" Checked="CheckExponential" Content="Экспоненциальное "/>
+                <RadioButton Grid.Column="0" Grid.Row="2" GroupName="Distributions" Checked="CheckedTriangle1" Content="Треунгольное(x-a)"/>
+                <RadioButton Grid.Column="0" Grid.Row="3" GroupName="Distributions" Checked="CheckedTriangle2" Content="Треунгольное(b-x)"/>
+
+                <RadioButton Grid.Column="1" Grid.Row="0" GroupName="Distributions" Checked="CheckedGamma" Content="Гамма"/>
+                <RadioButton Grid.Column="1" Grid.Row="1" GroupName="Distributions" Checked="CheckedGauss" Content="Гауссовское"/>
+                <RadioButton Grid.Column="1" Grid.Row="2" GroupName="Distributions" Checked="CheckedSimpson" Content="Симпсона"/>
+            </Grid>
+
+            <Grid Margin="25 0 0 0" Width="450" Height="80">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="29*"/>
+                    <ColumnDefinition Width="121*"/>
+                    <ColumnDefinition Width="29*"/>
+                    <ColumnDefinition Width="121*"/>
+                    <ColumnDefinition Width="29*"/>
+                    <ColumnDefinition Width="121*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="a=" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                <Label Content="b=" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                <Label Content="m=" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right"/>
+                <Label Content="σ=" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right"/>
+                <Label Content="λ=" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right"/>
+                <Label Content="η=" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right"/>
+
+                <TextBox x:Name="a"  Grid.Column="1" Grid.Row="0" Margin="3"/>
+                <TextBox x:Name="b" Grid.Column="1" Grid.Row="1" Margin="3"/>
+                <TextBox x:Name="m" Grid.Column="3" Grid.Row="0" Margin="3"/>
+                <TextBox x:Name="sigm" Grid.Column="3" Grid.Row="1" Margin="3"/>
+                <TextBox x:Name="lambda" Grid.Column="5" Grid.Row="0" Margin="3"/>
+                <TextBox x:Name="n" Grid.Column="5" Grid.Row="1" Margin="3"/>
+            </Grid>
+
             <Grid Margin="25 0 0 0" >
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -245,49 +247,9 @@
                 <Label x:Name="dispersion" Grid.Row="1" Grid.Column="1" Content="0"/>
                 <Label x:Name="deviation" Grid.Row="2" Content="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="24" Margin="121,19,0,0"/>
             </Grid>
-            <Grid Margin="60 0 0 0" >
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Label  Grid.Row="0" Grid.Column="0" Content="Попадания K ="/>
-                <Label Grid.Row="1" Grid.Column="0" Content="Количество N ="/>
-                <Label Grid.Row="2" Grid.Column="0" Content="π/4 = 0.78539816339" Grid.ColumnSpan="2" />
-                <Label Grid.Row="3" Grid.Column="0" Content="2K/N =" HorizontalAlignment="Right"/>
-                <Label Grid.Row="4" Grid.Column="0" Content="|2K/N-π/4| =" HorizontalAlignment="Right"/>
-                <Label x:Name="hits" Grid.Row="0" Grid.Column="1" Content="0"/>
-                <Label x:Name="N" Grid.Row="1" Grid.Column="1" Content="0"/>
-                <Label x:Name="K2N" Grid.Row="3" Grid.Column="1" Content="0"/>
-                <Label x:Name="diff" Grid.Row="4" Grid.Column="1" Content="0"/>
-            </Grid>
             
-            <Grid Margin="60 0 0 0" >
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Label  Grid.Row="0" Grid.Column="0" Content="Период P ="/>
-                <Label  Grid.Row="1" Grid.Column="0" Content="Апериодичность L ="/>
-                <Label x:Name="period"  Grid.Row="0" Grid.Column="1" Content="0"/>
-                <Label x:Name="aperiod" Grid.Row="1" Grid.Column="1" Content="0"/>
-            </Grid>
-
         </StackPanel>
-        <StackPanel Orientation="Horizontal"  Margin="60 10 0 0">
-            <Line StrokeThickness="2" X2="65" Y2="15" Y1="15" Stroke="#FFD01515"/>
-            <Label Content="1/m"/>
-        </StackPanel>
+        <StackPanel Orientation="Horizontal"  Margin="60 10 0 0"/>
     </StackPanel>
 </Window>
 <!--#region 

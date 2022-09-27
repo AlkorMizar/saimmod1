@@ -28,34 +28,9 @@ namespace saimmod1.Algoritms
             return a + (b - a) * Math.Max(R1, R2);
         }
 
-        private double GetProbability(double x)
-        {
-            if (x < a || x > b)
-            {
-                return 0;
-            }
-            return 2 * (x - a) / ((b - a) * (b - a));
-        }
-
         public override (double m, double d) GetStatistic(long N)
         {
-            var clone = rand.Clone();
-            double m = 0, d = 0, x = 0;
-
-            for (int i = 0; i < N; i++)
-            {
-                x = clone.GetNext();
-                m += x * GetProbability(x);
-            }
-
-            clone.Reset();
-            for (int i = 0; i < N; i++)
-            {
-                x = clone.GetNext();
-                d += (x - m) * (x - m) * GetProbability(x);
-            }
-
-            return (m, d);
+            return ((a + 2 * b) / 3, (a * a +  b * b - 2 * a * b) / 18);
         }
 
         public override void Reset()
@@ -83,34 +58,9 @@ namespace saimmod1.Algoritms
             rand.Reset();
         }
 
-        private double GetProbability(double x)
-        {
-            if (x < a || x > b)
-            {
-                return 0;
-            }
-            return 2 * (b - x) / ((b - a) * (b - a));
-        }
-
         public override (double m, double d) GetStatistic(long N)
         {
-            var clone = rand.Clone();
-            double m = 0, d = 0, x;
-
-            for (int i = 0; i < N; i++)
-            {
-                x = clone.GetNext();
-                m += x * GetProbability(x);
-            }
-
-            clone.Reset();
-            for (int i = 0; i < N; i++)
-            {
-                x = clone.GetNext();
-                d += (x - m) * (x - m) * GetProbability(x);
-            }
-
-            return (m, d);
+            return ((2 * a + b) / 3, ( a * a + b * b - 2 * a * b) / 18);
         }
 
         public override Algorithm Clone()
